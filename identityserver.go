@@ -157,8 +157,8 @@ type AuthRequestData struct {
 	Scope        string
 }
 
-// reader encodes the data into "URL Encoded" form sorted by key.
-func (arb *AuthRequestData) reader() *strings.Reader {
+// Reader encodes the data into "URL Encoded" form sorted by key.
+func (arb *AuthRequestData) Reader() *strings.Reader {
 	dat := url.Values{
 		"client_id":     {arb.ClientID},
 		"client_secret": {arb.ClientSecret},
@@ -168,9 +168,9 @@ func (arb *AuthRequestData) reader() *strings.Reader {
 	return strings.NewReader(dat)
 }
 
-// requestToken returns a new authorized http.Client.
-func requestToken(arb AuthRequestData) (ar *AuthResponse, err error) {
-	req, err := http.NewRequest("POST", tokenURL(), arb.reader())
+// RequestToken returns a new authorized http.Client.
+func RequestToken(arb AuthRequestData) (ar *AuthResponse, err error) {
+	req, err := http.NewRequest("POST", tokenURL(), arb.Reader())
 	if err != nil {
 		return
 	}
@@ -194,7 +194,7 @@ func requestToken(arb AuthRequestData) (ar *AuthResponse, err error) {
 
 // NewAuthenticatedRequest returns a new request that has been authenticated.
 func NewAuthenticatedRequest(arb AuthRequestData, httpMethod string, url string, headers map[string]string, body io.Reader) (req *http.Request, err error) {
-	ar, err := requestToken(arb)
+	ar, err := RequestToken(arb)
 	if err != nil {
 		return
 	}
