@@ -32,7 +32,7 @@ func Introspect(req *http.Request) (active bool, statusCode int, status string) 
 		return
 	}
 
-	ar, err := newIntrospectRequest(t)
+	ar, err := NewIntrospectRequest(t)
 	if err != nil {
 		return
 	}
