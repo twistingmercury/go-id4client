@@ -86,7 +86,9 @@ func extractToken(h http.Header) (t string, statusCode int, status string) {
 	return
 }
 
-func newIntrospectRequest(token string) (ar *http.Request, err error) {
+// NewIntrospectRequest creates a new http request to be used to validate the access token
+// that is passed in.
+func NewIntrospectRequest(token string) (ar *http.Request, err error) {
 	data := url.Values{"token": {token}}.Encode()
 	ar, err = http.NewRequest("POST", introspectURL(), strings.NewReader(data))
 	if err != nil {
